@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <springProfile name="dev">
+        <include resource="org/springframework/boot/logging/logback/base.xml" />
+    </springProfile>
+
+
+
+
+    <springProfile name="test"> <!-- 测试和生产环境采用不同存储路径 -->
+        <property name="log.home" value="/Users/zhiqsyr/tmp/logs/mfmall" />
+    </springProfile>
+    <springProfile name="prod">
+        <property name="log.home" value="/Users/zhiqsyr/tmp/logs/mfmall" />
+    </springProfile>
+
+    <springProfile name="test, prod">
+        <property name="project" value="mfmall" />
+
+        <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <FileNamePattern>${log.home}/${project}.%d{yyyy-ww}.log</FileNamePattern>               <!-- 每周滚动 -->
+                <MaxHistory>30</MaxHistory>     <!-- 日志文件保留天数 -->
+            </rollingPolicy>
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>  <!-- 格式化输出：%d表示日期，%thread表示线程名，%-5level级别从左显示5个字符宽度，%msg日志消息，%n换行符 -->
+            </encoder>
+            <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+                <MaxFileSize>10MB</MaxFileSize> <!-- 日志文件大小上限 -->
+            </triggeringPolicy>
+        </appender>
+
+        <appender name="file-performance" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <FileNamePattern>${log.home}/${project}-performance.%d{yyyy-ww}.log</FileNamePattern>
+                <MaxHistory>30</MaxHistory>
+            </rollingPolicy>
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            </encoder>
+            <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+                <MaxFileSize>10MB</MaxFileSize>
+            </triggeringPolicy>
+        </appender>
+
+        <logger name="net.iclassmate.sample.spring.boot.web.aop.aspect.PerformanceAspect" level="warn">
+            <appender-ref ref="file-performance" />
+        </logger>
+
+        <root level="info">
+            <appender-ref ref="file" />
+        </root>
+    </springProfile>
+
+</configuration>

@@ -1,0 +1,31 @@
+## 运行环境相关配置 ##
+
+# 指定当前激活的配置文件（即重复配置，以激活的文件为准）
+spring.profiles.active: dev
+
+server.contextPath: /mfmall
+spring.main.banner-mode: "off"
+
+# 单个文件最大限制20MB
+multipart.maxFileSize: 20Mb
+# 单次上传请求最大限制25MB
+multipart.maxRequestSize: 25Mb
+
+
+
+
+## 全局变量相关配置 ##
+
+global:
+  projectName: mfmall
+  # 忽略安全校验的 uri，以","分割
+  ignoreUris: /error,/swagger-resources,/v2/api-docs
+
+
+
+
+## 数据库相关配置 ##
+
+spring.jpa:
+  properties.hibernate.current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+  show-sql: true

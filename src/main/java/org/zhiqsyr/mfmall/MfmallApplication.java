@@ -1,13 +1,13 @@
 package org.zhiqsyr.mfmall;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * @author dongbz
  * @since 2017/3/31
  */
-@EnableAutoConfiguration
+@SpringBootApplication
 public class MfmallApplication {
 
     public static void main(String[] args) {
