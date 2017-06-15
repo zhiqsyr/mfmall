@@ -20,14 +20,14 @@ public class Swagger2Conf {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("net.iclassmate.sample"))
+                .apis(RequestHandlerSelectors.basePackage("org.zhiqsyr.mfmall"))
                 .paths(PathSelectors.any())
                 .build();
     }
     
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Sample-SpringBoot RESTful APIs")
+                .title("MFMall RESTful APIs")
                 .description("RESTful 接口")
                 .contact(new Contact("董丙泽", null, "dongbingze@qq.com"))
                 .version("1.0")

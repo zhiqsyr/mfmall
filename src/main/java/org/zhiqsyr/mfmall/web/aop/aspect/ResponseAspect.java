@@ -21,7 +21,7 @@ import java.lang.reflect.Method;
 @Component
 public class ResponseAspect {
 
-	@Pointcut("execution (* org.zhiqsyr.mfmall.service.*.*(..))")
+	@Pointcut("execution (* org.zhiqsyr.mfmall..controller.*.*(..))")
 	public void restful() {}
 
 	@Around("restful()")

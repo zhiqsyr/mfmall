@@ -24,9 +24,9 @@ create table `user` (
 	id int auto_increment primary key,
 
 	account varchar(50) not null unique comment '登录帐号',
-	psw char(36) not null comment '密码',
+	psw char(32) not null comment '密码',
 
-	name varchar(20) not null default '' comment '名称',	-- 名称不可修改
+	name varchar(20) not null unique comment '名称',	-- 名称不可修改
 	sex enum('M', 'F') not null default 'M' comment '性别',
 	mobile varchar(20) unique comment '手机号码',
 	email varchar(50) unique comment '电子邮箱',

@@ -36,7 +36,6 @@ dependencies {
     compile ('org.springframework.boot:spring-boot-starter-web') {
         exclude module: 'spring-boot-starter-tomcat'    // 移出默认 tomcat，使用 undertow
     }
-    compile 'org.springframework.boot:spring-boot-starter-activemq'
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     compile 'com.zaxxer:HikariCP'
     compile 'mysql:mysql-connector-java:6.0.6'
@@ -45,8 +44,11 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.5'
     compile 'com.google.guava:guava:21.0'
 
+//    compile 'org.springframework.boot:spring-boot-starter-activemq'
     // 服务运行容器
-    compile 'org.springframework.boot:spring-boot-starter-undertow'
+    compile ('org.springframework.boot:spring-boot-starter-undertow') {
+        exclude group: 'io.undertow', module: 'undertow-websockets-jsr'
+    }
     compile 'io.undertow:undertow-core'
 
     // 服务运行监控工具（开发环境可以注掉，提高启动速度）
