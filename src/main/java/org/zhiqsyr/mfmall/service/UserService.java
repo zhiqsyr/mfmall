@@ -1,7 +1,6 @@
 package org.zhiqsyr.mfmall.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -22,6 +21,8 @@ public class UserService extends BaseService {
 
     @Autowired private UserRepository userRepository;
 
+    @Autowired private ForumService forumService;
+
     /**
      * id、account、psw、mobile、email、status 中哪个或哪些传值，则据其查出唯一结果
      *
@@ -35,18 +36,7 @@ public class UserService extends BaseService {
     }
 
     /**
-     * 查询最近注册的用户
-     *
-     * @return
-     */
-    public User findLastestRegister() {
-        List<User> users = userRepository.findByOrderByIdDesc(new PageRequest(0, 1)).getContent();
-        if (users.size() == 0) return null;
-        return users.get(0);
-    }
-
-    /**
-     * 注册
+     * 1）注册；2）更新论坛最新用户等信息
      *
      * @param user
      * @return id
@@ -55,8 +45,10 @@ public class UserService extends BaseService {
         Assert.noNullElements(new Object[]{user.getAccount(), user.getPsw(), user.getName(), user.getEmail()}, "Some properties shouldn't be null.");
 
         user.setPsw(MD5Utils.encode32(user.getPsw()));
-
         userRepository.save(user);
+
+        forumService.afterRegisterUser(user);
+
         return user.getId();
     }
 

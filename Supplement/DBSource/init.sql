@@ -19,6 +19,9 @@ create table forum (
 	newest_post json comment '最新回复信息'	-- 用于展示与跳转
 ) comment '论坛统计信息';
 
+insert into forum (id, visits, topics, posts_today, posts_yesterday, posts, users, newest_user_id, newest_user_name, newest_post)
+values (100, 0, 0, 0, 0, 0, 0, null, null, null);
+
 drop table if exists `user`;
 create table `user` (
 	id int auto_increment primary key,
@@ -51,15 +54,17 @@ create table user_statis (
 
 drop table if exists dict;
 create table dict (
-	id int primary key,	-- 同一类型下id自增
+	id mediumint primary key,	-- 同一类型下id+10
 	type varchar(20) not null comment '字典类型：10000=版块类型',
 	name varchar(20) not null default '' comment '名称',
 
-	`index` int not null default 0 comment '顺序索引',
+	`index` int not null default 0 comment '顺序索引，默认=id',
 
 	user_id int not null comment '创建人ID',
 	created_time datetime not null default current_timestamp comment '创建时间'
 ) comment '数据字典';
+alter table dict add status enum('NORMAL', 'REMOVED') not null default 'NORMAL' comment '数据状态' after `index`;
+alter table dict modify `index` double not null default 0 comment '顺序索引，默认=id';
 
 drop table if exists board;
 create table board (
@@ -68,7 +73,8 @@ create table board (
 	-- ico varchar(50) not null comment '图标',
 	brief varchar(200) not null default '' comment '简介',
 
-	category_id int not null comment '分类',
+	category_id int not null comment '版块类型（dict.id）',
+	category_name varchar(20) not null default '' comment '版块类型名称（dict.name）',
 
 	topics int not null default 0 comment '主题数',
 	posts int not null default 0 comment '帖子数',
@@ -79,6 +85,8 @@ create table board (
 	user_name varchar(20) not null comment '创建人名称',
 	created_time datetime not null default current_timestamp comment '创建时间'
 ) auto_increment = 10000 comment '版块';
+alter table board add status enum('NORMAL', 'REMOVED') not null default 'NORMAL' comment '数据状态' after `index`;
+alter table board modify `index` double not null default 0 comment '顺序索引';
 
 drop table if exists board_master;
 create table board_master (

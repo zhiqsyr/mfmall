@@ -28,17 +28,8 @@ public class UserController {
     }
 
     /**
-     * 查询最新注册的用户
-     *
-     * @return user
-     */
-    @GetMapping("find/lastest")
-    public Object findLastestRegister() {
-        return userService.findLastestRegister();
-    }
-
-    /**
-     * 注册
+     * 注册<br>
+     * 1）首先注册用户；2）更新forum中会员数、最新会员信息
      *
      * @param user
      * @return user.id
